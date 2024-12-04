@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!--
+ * @author      Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2024 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="category.product.type.details.renderers">
+            <block class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Simple" name="category.product.type.details.renderers.simple" as="simple" template="Infrangible_CatalogProductPriceCalculation::product/listing/simple.phtml"/>
+            <referenceBlock name="category.product.type.details.renderers.configurable" class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Configurable" template="Infrangible_CatalogProductPriceCalculation::product/listing/configurable.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

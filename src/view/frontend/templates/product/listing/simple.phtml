@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+use Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Simple;
+use Magento\Framework\Escaper;
+
+/**
+ * @author      Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2024 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+ */
+
+/** @var Escaper $escaper */
+/** @var Simple $block */
+
+$product = $block->getProduct();
+?>
+
+<?php if ($product && $product->isAvailable()): ?>
+    <script type="text/x-magento-init">
+        {
+            "[data-role=priceBox][data-price-box=product-id-<?= $escaper->escapeJs($product->getId()); ?>]": {
+                "priceBox": {
+                    "priceConfig": {
+                        "priceFormat": <?= /* @noEscape */ $block->getPriceFormatJson(); ?>,
+                        "prices": <?= /* @noEscape */ $block->getPricesJson(); ?>,
+                        "calculatedPrices": <?= /* @noEscape */ $block->getCalculatedPricesJson(); ?>
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

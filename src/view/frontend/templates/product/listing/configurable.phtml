@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+use Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Configurable;
+use Magento\Framework\Escaper;
+
+/**
+ * @author      Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2024 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+ */
+
+/** @var Escaper $escaper */
+/** @var Configurable $block */
+
+$product = $block->getProduct();
+?>
+
+<?php if ($product && $product->isAvailable()): ?>
+    <?php $productId = $product->getId(); ?>
+    <?php /** @var \Magento\Swatches\ViewModel\Product\Renderer\Configurable $configurableViewModel */ ?>
+    <?php $configurableViewModel = $block->getData('configurable_view_model'); ?>
+    <div class="swatch-opt-<?= $escaper->escapeHtmlAttr($productId); ?>"
+         data-role="swatch-option-<?= $escaper->escapeHtmlAttr($productId); ?>"></div>
+
+    <script type="text/x-magento-init">
+        {
+            "[data-role=swatch-option-<?= $escaper->escapeJs($productId); ?>]": {
+                "Magento_Swatches/js/swatch-renderer": {
+                    "selectorProduct": ".product-item-details",
+                    "onlySwatches": true,
+                    "enableControlLabel": false,
+                    "numberToShow": <?=  $escaper->escapeJs($block->getNumberSwatchesPerProduct()); ?>,
+                    "jsonConfig": <?= /* @noEscape */ $block->getJsonConfig(); ?>,
+                    "jsonSwatchConfig": <?= /* @noEscape */ $block->getJsonSwatchConfig(); ?>,
+                    "mediaCallback": "<?= $escaper->escapeJs($escaper->escapeUrl($block->getMediaCallback())); ?>",
+                    "jsonSwatchImageSizeConfig": <?= /* @noEscape */ $block->getJsonSwatchSizeConfig(); ?>,
+                    "showTooltip": <?= $escaper->escapeJs($configurableViewModel->getShowSwatchTooltip()); ?>
+                }
+            }
+        }
+    </script>
+
+    <script type="text/x-magento-init">
+        {
+            "[data-role=priceBox][data-price-box=product-id-<?= $escaper->escapeJs($productId); ?>]": {
+                "priceBox": {
+                    "priceConfig": {
+                        "priceFormat": <?= /* @noEscape */ $block->getPriceFormatJson(); ?>,
+                        "prices": <?= /* @noEscape */ $block->getPricesJson(); ?>,
+                        "calculatedPrices": <?= /* @noEscape */ $block->getCalculatedPricesJson(); ?>
+                    }
+                }
+            }
+        }
+    </script>
+<?php endif; ?>

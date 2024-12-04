@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<!--
+ * @author      Andreas Knollmann
+ * @copyright   Copyright (c) 2014-2024 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="price_box_calculated" template="Infrangible_CatalogProductPriceCalculation::price-box-calculated.phtml"/>
+            <block class="Infrangible\CatalogProductPriceCalculation\Block\Section" name="catalog_product_price__calculation_section" template="Infrangible_CatalogProductPriceCalculation::section.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
