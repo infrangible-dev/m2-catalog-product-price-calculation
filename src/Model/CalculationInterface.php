@@ -24,5 +24,5 @@ interface CalculationInterface
 
     public function isActive(): bool;
 
-    public function getQuoteItemId(): string;
+    public function getQuoteItemOptionCode(): string;
 }

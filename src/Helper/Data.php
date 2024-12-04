@@ -113,7 +113,7 @@ class Data
                         [
                             'product' => $item->getProduct(),
                             'code'    => 'price_calculation',
-                            'value'   => $calculation->getCode()
+                            'value'   => $calculation->getQuoteItemOptionCode()
                         ]
                     )
                 );
