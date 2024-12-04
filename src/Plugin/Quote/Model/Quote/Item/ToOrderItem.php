@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Infrangible\CatalogProductPriceCalculation\Plugin\Quote\Model\Quote\Item;
 
 use Magento\Quote\Model\Quote\Item;
+use Magento\Sales\Api\Data\OrderItemInterface;
 
 /**
  * @author      Andreas Knollmann
@@ -19,7 +20,8 @@ class ToOrderItem
         \Closure $proceed,
         $item,
         $data = []
-    ) {
+    ): OrderItemInterface {
+        /** @var \Magento\Sales\Model\Order\Item $orderItem */
         $orderItem = $proceed(
             $item,
             $data

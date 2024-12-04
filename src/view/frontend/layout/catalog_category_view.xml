@@ -9,6 +9,7 @@
     <body>
         <referenceBlock name="category.product.type.details.renderers">
             <block class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Simple" name="category.product.type.details.renderers.simple" as="simple" template="Infrangible_CatalogProductPriceCalculation::product/listing/simple.phtml"/>
+            <block class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Downloadable" name="category.product.type.details.renderers.downloadable" as="downloadable" template="Infrangible_CatalogProductPriceCalculation::product/listing/downloadable.phtml"/>
             <referenceBlock name="category.product.type.details.renderers.configurable" class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Configurable" template="Infrangible_CatalogProductPriceCalculation::product/listing/configurable.phtml"/>
         </referenceBlock>
     </body>
