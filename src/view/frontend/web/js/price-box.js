@@ -6,13 +6,14 @@
 
 define([
     'jquery',
-    'Infrangible_CatalogProductPriceCalculation/js/model/calculation'
+    'Infrangible_CatalogProductPriceCalculation/js/model/calculation',
+    'Magento_Catalog/js/price-box'
 ], function ($, calculation) {
     'use strict';
 
     var activeCalculationCodes = [];
 
-    var priceBoxMixin = {
+    $.widget('infrangible.priceBox', $.mage.priceBox, {
         activeCalculationCode: null,
 
         _init: function initPriceBox() {
@@ -65,16 +66,12 @@ define([
                 }
             }
 
-            if (this.activeCalculationCode !== selectedCalculationCode) {
+            if (newPrices !== undefined || this.activeCalculationCode !== selectedCalculationCode) {
                 this._super(newPrices);
                 this.activeCalculationCode = selectedCalculationCode;
             }
         }
-    };
+    });
 
-    return function (targetWidget) {
-        $.widget('mage.priceBox', targetWidget, priceBoxMixin);
-
-        return $.mage.priceBox;
-    };
+    return $.infrangible.priceBox;
 });

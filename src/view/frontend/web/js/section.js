@@ -8,8 +8,9 @@ define([
     'jquery',
     'uiComponent',
     'Magento_Customer/js/customer-data',
+    'Magento_Customer/js/model/customer',
     'Infrangible_CatalogProductPriceCalculation/js/model/calculation'
-], function ($, Component, customerData, calculation) {
+], function ($, Component, customerData, customer, calculation) {
     'use strict';
 
     return Component.extend({
@@ -20,6 +21,10 @@ define([
         /** @inheritdoc */
         initialize: function () {
             this._super();
+
+            if (customer.isLoggedIn()) {
+                customerData.reload(['catalog-product-price-calculation']);
+            }
 
             var self = this;
 

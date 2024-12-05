@@ -5,11 +5,9 @@
  */
 
 var config = {
-    config: {
-        mixins: {
-            'Magento_Catalog/js/price-box': {
-                'Infrangible_CatalogProductPriceCalculation/js/price-box-mixin': true
-            }
+    map: {
+        '*': {
+            priceBox: 'Infrangible_CatalogProductPriceCalculation/js/price-box'
         }
     }
 };
