@@ -7,6 +7,7 @@ namespace Infrangible\CatalogProductPriceCalculation\Model\Calculation;
 use Infrangible\CatalogProductPriceCalculation\Model\Calculation\Prices\SimpleFactory;
 use Infrangible\CatalogProductPriceCalculation\Model\CalculationInterface;
 use Magento\Framework\Pricing\Amount\AmountFactory;
+use Magento\Framework\Pricing\Amount\AmountInterface;
 
 /**
  * @author      Andreas Knollmann
@@ -53,5 +54,15 @@ abstract class Base implements CalculationInterface
     public function setPriority(int $priority): void
     {
         $this->priority = $priority;
+    }
+
+    protected function createAmount(float $value): AmountInterface
+    {
+        return $this->amountFactory->create(
+            round(
+                $value,
+                2
+            )
+        );
     }
 }

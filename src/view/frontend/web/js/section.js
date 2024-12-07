@@ -8,9 +8,8 @@ define([
     'jquery',
     'uiComponent',
     'Magento_Customer/js/customer-data',
-    'Magento_Customer/js/model/customer',
     'Infrangible_CatalogProductPriceCalculation/js/model/calculation'
-], function ($, Component, customerData, customer, calculation) {
+], function ($, Component, customerData, calculation) {
     'use strict';
 
     return Component.extend({
@@ -22,7 +21,25 @@ define([
         initialize: function () {
             this._super();
 
-            if (customer.isLoggedIn()) {
+            var reloadSection = false;
+
+            var cartObservable = customerData.get('cart');
+            if (cartObservable) {
+                var cart = cartObservable();
+                if (cart && cart.summary_count > 0) {
+                    reloadSection = true;
+                }
+            }
+
+            var customerObservable = customerData.get('customer');
+            if (customerObservable) {
+                var customer = customerObservable();
+                if (customer && customer.fullname) {
+                    reloadSection = true;
+                }
+            }
+
+            if (reloadSection) {
                 customerData.reload(['catalog-product-price-calculation']);
             }
 
