@@ -40,10 +40,34 @@ define([
             }
 
             if (reloadSection) {
+                $(document).on('customer-data-reload', function(event, sectionNames) {
+                    for (var i = 0; i < sectionNames.length; i++) {
+                        if (sectionNames[i] === 'catalog-product-price-calculation') {
+                            setTimeout(function () {
+                                calculation.addActiveCalculation('default', 0);
+                            }, 100);
+                        }
+                    }
+                });
                 customerData.reload(['catalog-product-price-calculation']);
-            }
+            } else {
+                var self = this;
 
-            var self = this;
+                $(document).ready(function() {
+                    var catalogProductPriceSection = customerData.get('catalog-product-price-calculation');
+                    var catalogProductPriceData = catalogProductPriceSection();
+                    if (! $.isEmptyObject(catalogProductPriceData)) {
+                        console.log(catalogProductPriceData);
+                        if (catalogProductPriceData.activeCalculationCodes) {
+                            for (var i = 0; i < catalogProductPriceData.activeCalculationCodes.length; i++) {
+                                var activeCalculationCode = catalogProductPriceData.activeCalculationCodes[i];
+                                self.setActiveCalculation(activeCalculationCode);
+                            }
+                        }
+                    }
+                    calculation.addActiveCalculation('default', 0);
+                });
+            }
 
             customerData.get('catalog-product-price-calculation').subscribe(function (sectionInfo) {
                 if (sectionInfo.activeCalculationCodes) {
@@ -78,21 +102,6 @@ define([
                     calculation.resetActiveCalculations();
                 }
             }, this);
-
-            $(document).ready(function() {
-                var catalogProductPriceSection = customerData.get('catalog-product-price-calculation');
-                var catalogProductPriceData = catalogProductPriceSection();
-                if (! $.isEmptyObject(catalogProductPriceData)) {
-                    console.log(catalogProductPriceData);
-                    if (catalogProductPriceData.activeCalculationCodes) {
-                        for (var i = 0; i < catalogProductPriceData.activeCalculationCodes.length; i++) {
-                            var activeCalculationCode = catalogProductPriceData.activeCalculationCodes[i];
-                            self.setActiveCalculation(activeCalculationCode);
-                        }
-                    }
-                }
-                calculation.addActiveCalculation('default', 0);
-            });
         },
 
         setActiveCalculation: function (activeCalculationCode) {
