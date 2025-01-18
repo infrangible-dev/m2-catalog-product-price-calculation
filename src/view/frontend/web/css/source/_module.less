@@ -7,7 +7,7 @@
 & when (@media-common = true) {
     .price-box {
         .price-container.price-calculation {
-            > .price-wrapper {
+            > .price-wrapper[data-price-type="baseOldPrice"], .price-wrapper[data-price-type="oldPrice"], .price-wrapper[data-price-type="basePrice"], .price-wrapper[data-price-type="finalPrice"] {
                 > :not(.calculated) {
                     visibility: hidden;
                 }
