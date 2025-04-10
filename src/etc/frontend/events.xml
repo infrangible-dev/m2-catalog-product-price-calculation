@@ -6,6 +6,9 @@
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_cart_product_add_before">
+        <observer name="infrangible_catalogproductpricecalculation" instance="Infrangible\CatalogProductPriceCalculation\Observer\CheckoutCartProductAddBefore"/>
+    </event>
     <event name="checkout_cart_save_before">
         <observer name="infrangible_catalogproductpricecalculation" instance="Infrangible\CatalogProductPriceCalculation\Observer\CheckoutCartSaveBefore"/>
     </event>

@@ -57,7 +57,7 @@ define([
                     var catalogProductPriceSection = customerData.get('catalog-product-price-calculation');
                     var catalogProductPriceData = catalogProductPriceSection();
                     if (! $.isEmptyObject(catalogProductPriceData)) {
-                        console.log(catalogProductPriceData);
+                        console.debug(catalogProductPriceData);
                         if (catalogProductPriceData.activeCalculationCodes) {
                             for (var i = 0; i < catalogProductPriceData.activeCalculationCodes.length; i++) {
                                 var activeCalculationCode = catalogProductPriceData.activeCalculationCodes[i];

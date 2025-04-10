@@ -28,7 +28,7 @@ define([
                 return b.priority - a.priority;
             });
 
-            console.log(activeCalculationsData);
+            console.debug(activeCalculationsData);
             activeCalculationsObservable(activeCalculationsData);
         },
 
@@ -48,7 +48,7 @@ define([
                 }
             }
 
-            console.log(activeCalculationsData);
+            console.debug(activeCalculationsData);
             activeCalculationsObservable(activeCalculationsData);
         }
     };

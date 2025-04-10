@@ -38,9 +38,16 @@ class CheckoutCartSaveBefore implements ObserverInterface
 
         $items = $quote->getId() ? $cart->getItems() : $quote->getItemsCollection();
 
+        $calculatedItems = [];
+
         /** @var Item $item */
         foreach ($items as $item) {
-            $this->helper->updateItemPrice($item);
+            if ($this->helper->updateItemPrice(
+                $item,
+                $calculatedItems
+            )) {
+                $calculatedItems[] = $item;
+            }
         }
     }
 }

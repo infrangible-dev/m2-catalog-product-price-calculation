@@ -34,9 +34,16 @@ class SalesQuoteMergeAfter implements ObserverInterface
         /** @var Quote $quote */
         $quote = $observer->getData('quote');
 
+        $calculatedItems = [];
+
         /** @var Item $item */
         foreach ($quote->getItemsCollection() as $item) {
-            $this->helper->updateItemPrice($item);
+            if ($this->helper->updateItemPrice(
+                $item,
+                $calculatedItems
+            )) {
+                $calculatedItems[] = $item;
+            }
         }
     }
 }

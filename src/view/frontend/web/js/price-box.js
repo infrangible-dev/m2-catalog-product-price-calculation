@@ -23,13 +23,13 @@ define([
             this.options.priceConfig.calculatedPrices['default'] = this.options.prices;
 
             calculation.getActiveCalculations().subscribe(function (activeCalculations) {
-                console.log(activeCalculations);
+                console.debug(activeCalculations);
 
                 activeCalculationCodes = [];
 
                 for (var i = 0; i < activeCalculations.length; i++) {
                     var activeCalculation = activeCalculations[i];
-                    console.log(activeCalculation);
+                    console.debug(activeCalculation);
 
                     activeCalculationCodes.push(activeCalculation.code);
                 }
@@ -43,21 +43,21 @@ define([
         },
 
         updatePrice: function updatePrice(newPrices) {
-            console.log(activeCalculationCodes);
+            console.debug(activeCalculationCodes);
             if (activeCalculationCodes.length === 0) {
                 return;
             }
-            console.log(this.options.priceConfig.calculatedPrices);
+            console.debug(this.options.priceConfig.calculatedPrices);
 
             var selectedCalculationCode;
 
             for (var i = 0; i < activeCalculationCodes.length; i++) {
                 var activeCalculationCode = activeCalculationCodes[i];
-                console.log(activeCalculationCode);
+                console.debug(activeCalculationCode);
 
                 if (activeCalculationCode in this.options.priceConfig.calculatedPrices) {
                     var calculationPrices = this.options.priceConfig.calculatedPrices[activeCalculationCode];
-                    console.log(calculationPrices);
+                    console.debug(calculationPrices);
 
                     this.options.prices = calculationPrices;
                     selectedCalculationCode = activeCalculationCode;

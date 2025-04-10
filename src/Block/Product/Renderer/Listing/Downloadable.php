@@ -27,7 +27,7 @@ class Downloadable extends AbstractView
     protected $localeFormat;
 
     /** @var Data */
-    protected $helper;
+    protected $calculationHelper;
 
     /** @var Product|null */
     private $product;
@@ -48,7 +48,7 @@ class Downloadable extends AbstractView
 
         $this->json = $json;
         $this->localeFormat = $localeFormat;
-        $this->helper = $helper;
+        $this->calculationHelper = $helper;
     }
 
     public function getProduct(): ?Product
@@ -106,9 +106,9 @@ class Downloadable extends AbstractView
 
         $product = $this->getProduct();
 
-        foreach ($this->helper->getCalculations() as $calculation) {
+        foreach ($this->calculationHelper->getCalculations() as $calculation) {
             if ($calculation->hasProductCalculation($product)) {
-                $calculatedPrices[ $calculation->getCode() ] = $this->helper->getProductCalculation(
+                $calculatedPrices[ $calculation->getCode() ] = $this->calculationHelper->getProductCalculation(
                     $calculation,
                     $product
                 );

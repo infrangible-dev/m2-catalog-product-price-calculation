@@ -101,27 +101,31 @@ class Data
     }
 
     /**
+     * @param Item[] $calculatedItems
+     *
      * @throws LocalizedException
      */
-    public function updateItemPrice(Item $item): void
+    public function updateItemPrice(Item $item, array $calculatedItems): bool
     {
         $calculations = $this->getCalculations();
 
-        $this->updateItemPriceWithCalculations(
+        return $this->updateItemPriceWithCalculations(
             $item,
+            $calculatedItems,
             $calculations
         );
     }
 
     /**
+     * @param Item[]                 $calculatedItems
      * @param CalculationInterface[] $calculations
      *
      * @throws LocalizedException
      */
-    public function updateItemPriceWithCalculations(Item $item, array $calculations): void
+    public function updateItemPriceWithCalculations(Item $item, array $calculatedItems, array $calculations): bool
     {
         if ($item->isDeleted()) {
-            return;
+            return false;
         }
 
         usort(
@@ -134,7 +138,14 @@ class Data
         $product = $item->getProduct();
 
         foreach ($calculations as $calculation) {
-            if ($calculation->isActive() && $calculation->hasProductCalculation($product)) {
+            if ($calculation->hasProductCalculation($product) && $calculation->isAvailableForQuoteItem(
+                    $item,
+                    $calculatedItems
+                ) && $calculation->hasQuoteItemQty(
+                    $item,
+                    $calculatedItems
+                )) {
+
                 $prices = $calculation->getProductPrices($product);
 
                 $price = $prices->getFinalPrice();
@@ -154,12 +165,14 @@ class Data
                     )
                 );
 
-                return;
+                return true;
             }
         }
 
         $this->removeItemCustomPrice($item);
         $item->removeOption('price_calculation');
+
+        return false;
     }
 
     public function setItemCustomPrice(Item $item, AmountInterface $price): void

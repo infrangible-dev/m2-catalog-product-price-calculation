@@ -27,7 +27,7 @@ class Section implements SectionSourceInterface
         $activeCalculationCodes = [];
 
         foreach ($this->helper->getCalculations() as $calculation) {
-            if ($calculation->isActive()) {
+            if ($calculation->isAvailableForProduct()) {
                 $activeCalculationCodes[] = $calculation->getCode();
             }
         }
