@@ -10,7 +10,7 @@ use Magento\Quote\Model\Quote\Item;
 
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 interface CalculationInterface
@@ -20,6 +20,11 @@ interface CalculationInterface
     public function getPriority(): int;
 
     public function getProductPrices(Product $product): PricesInterface;
+
+    /**
+     * @return PricesInterface[]
+     */
+    public function getProductTierPrices(Product $product): array;
 
     public function hasProductCalculation(Product $product): bool;
 

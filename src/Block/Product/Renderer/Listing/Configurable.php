@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing;
 
+use FeWeDev\Base\Json;
+use Infrangible\CatalogProductPriceCalculation\Helper\Config;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Helper\Product;
 use Magento\Catalog\Model\Layer\Resolver;
@@ -21,13 +23,16 @@ use Magento\Swatches\Model\SwatchAttributesProvider;
 
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 class Configurable extends \Magento\Swatches\Block\Product\Renderer\Listing\Configurable
 {
-    /** @var \Infrangible\CatalogProductPriceCalculation\Helper\Data */
-    protected $calculationHelper;
+    /** @var Json */
+    protected $json;
+
+    /** @var Config */
+    protected $configHelper;
 
     public function __construct(
         Context $context,
@@ -40,7 +45,8 @@ class Configurable extends \Magento\Swatches\Block\Product\Renderer\Listing\Conf
         ConfigurableAttributeData $configurableAttributeData,
         SwatchData $swatchHelper,
         Media $swatchMediaHelper,
-        \Infrangible\CatalogProductPriceCalculation\Helper\Data $calculationHelper,
+        Json $json,
+        Config $configHelper,
         array $data = [],
         SwatchAttributesProvider $swatchAttributesProvider = null,
         Format $localeFormat = null,
@@ -65,24 +71,24 @@ class Configurable extends \Magento\Swatches\Block\Product\Renderer\Listing\Conf
             $layerResolver
         );
 
-        $this->calculationHelper = $calculationHelper;
+        $this->json = $json;
+        $this->configHelper = $configHelper;
     }
 
-    public function getCalculatedPricesJson(): string
+    public function getPriceConfigJson(): string
     {
-        $calculatedPrices = [];
+        $config = [
+            'priceFormat' => $this->json->decode($this->getPriceFormatJson()),
+            'prices'      => $this->json->decode($this->getPricesJson())
+        ];
 
         $product = $this->getProduct();
 
-        foreach ($this->calculationHelper->getCalculations() as $calculation) {
-            if ($calculation->hasProductCalculation($product)) {
-                $calculatedPrices[ $calculation->getCode() ] = $this->calculationHelper->getProductCalculation(
-                    $calculation,
-                    $product
-                );
-            }
-        }
+        $config = $this->configHelper->processConfig(
+            $config,
+            $product
+        );
 
-        return $this->jsonEncoder->encode($calculatedPrices);
+        return $this->json->encode($config);
     }
 }

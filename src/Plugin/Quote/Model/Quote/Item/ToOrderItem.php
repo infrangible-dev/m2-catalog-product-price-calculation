@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Infrangible\CatalogProductPriceCalculation\Plugin\Quote\Model\Quote\Item;
 
+use Closure;
 use Magento\Quote\Model\Quote\Item;
 use Magento\Sales\Api\Data\OrderItemInterface;
 
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 class ToOrderItem
@@ -17,7 +18,7 @@ class ToOrderItem
     /** @noinspection PhpUnusedParameterInspection */
     public function aroundConvert(
         Item\ToOrderItem $subject,
-        \Closure $proceed,
+        Closure $proceed,
         $item,
         $data = []
     ): OrderItemInterface {

@@ -6,11 +6,13 @@ namespace Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\List
 
 use FeWeDev\Base\Json;
 use Infrangible\CatalogProductPriceCalculation\Helper\Config;
+use Magento\Bundle\Pricing\Price\BundleRegularPrice;
+use Magento\Bundle\Pricing\Price\FinalPrice;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Block\Product\View\AbstractView;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Framework\Locale\Format;
-use Magento\Framework\Pricing\PriceInfo\Base;
 use Magento\Framework\Stdlib\ArrayUtils;
 
 /**
@@ -18,7 +20,7 @@ use Magento\Framework\Stdlib\ArrayUtils;
  * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
-class Downloadable extends AbstractView
+class Bundle extends AbstractView
 {
     /** @var Json */
     protected $json;
@@ -60,7 +62,7 @@ class Downloadable extends AbstractView
         return $this->product;
     }
 
-    public function setProduct(Product $product): Downloadable
+    public function setProduct(Product $product): Bundle
     {
         $this->product = $product;
 
@@ -71,7 +73,7 @@ class Downloadable extends AbstractView
     {
         $config = [
             'priceFormat' => $this->localeFormat->getPriceFormat(),
-            'prices'      => $this->getFormattedPrices($this->getProduct()->getPriceInfo())
+            'prices'      => $this->getPrices()
         ];
 
         $product = $this->getProduct();
@@ -84,9 +86,13 @@ class Downloadable extends AbstractView
         return $this->json->encode($config);
     }
 
-    public function getFormattedPrices(Base $priceInfo): array
+    private function getPrices(): array
     {
+        $priceInfo = $this->getProduct()->getPriceInfo();
+
+        /** @var BundleRegularPrice $regularPrice */
         $regularPrice = $priceInfo->getPrice('regular_price');
+        /** @var FinalPrice $finalPrice */
         $finalPrice = $priceInfo->getPrice('final_price');
 
         return [
@@ -102,6 +108,12 @@ class Downloadable extends AbstractView
             'finalPrice'   => [
                 'amount' => $this->localeFormat->getNumber($finalPrice->getAmount()->getValue()),
             ],
+            'minPrice'     => [
+                'amount' => $this->localeFormat->getNumber($finalPrice->getMinimalPrice()->getValue()),
+            ],
+            'maxPrice'     => [
+                'amount' => $this->localeFormat->getNumber($finalPrice->getMaximalPrice()->getValue()),
+            ]
         ];
     }
 }

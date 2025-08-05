@@ -11,7 +11,7 @@ use Magento\Framework\Pricing\Amount\AmountInterface;
 
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 abstract class Base implements CalculationInterface

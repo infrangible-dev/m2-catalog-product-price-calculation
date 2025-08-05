@@ -1,0 +1,50 @@
+<?php
+
+declare(strict_types=1);
+
+use Magento\Bundle\Pricing\Price\BundleRegularPrice;
+use Magento\Bundle\Pricing\Price\FinalPrice;
+use Magento\Catalog\Pricing\Render\FinalPriceBox;
+use Magento\Framework\Escaper;
+use Magento\Framework\Pricing\Price\PriceInterface;
+
+/**
+ * @author      Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
+ * @license     http://www.opensource.org/licenses/mit-license.php MIT
+ */
+
+/** @var Escaper $escaper */
+/** @var FinalPriceBox $block */
+
+/** @var FinalPrice $finalPriceModel */
+$finalPriceModel = $block->getPrice();
+$minimalPrice = $finalPriceModel->getMinimalPrice();
+
+/** @var BundleRegularPrice $regularPriceModel */
+$regularPriceModel = $block->getPriceType('regular_price');
+$minimalRegularPrice = $regularPriceModel->getMinimalPrice();
+
+$idSuffix = $block->getDataUsingMethod('id_suffix');
+if ($idSuffix === null) {
+    $idSuffix = '';
+}
+?>
+
+<?= /* @noEscape */ $block->renderAmount($minimalPrice, [
+    'price_id'          => $block->getPriceId('product-price-' . $idSuffix),
+    'price_type'        => 'finalPrice',
+    'include_container' => true,
+    'schema'            => false
+]); ?>
+
+<?php if ($minimalPrice < $minimalRegularPrice) : ?>
+    <span class="old-price">
+        <?= /* @noEscape */ $block->renderAmount($minimalRegularPrice, [
+            'display_label'     => __('Regular Price'),
+            'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+            'include_container' => true,
+            'skip_adjustments'  => true
+        ]); ?>
+    </span>
+<?php endif ?>

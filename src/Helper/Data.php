@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Infrangible\CatalogProductPriceCalculation\Helper;
 
+use Exception;
 use Infrangible\CatalogProductPriceCalculation\Model\Calculation\Prices\SimpleFactory;
 use Infrangible\CatalogProductPriceCalculation\Model\Calculation\PricesInterface;
 use Infrangible\CatalogProductPriceCalculation\Model\CalculationDataInterface;
@@ -21,7 +22,7 @@ use Magento\Quote\Model\Quote\Item;
 
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 class Data
@@ -97,7 +98,40 @@ class Data
             ];
         }
 
+        if ($calculationPrices->getMinimalPrice() !== null) {
+            $calculationData[ 'minPrice' ] = [
+                'amount'      => $calculationPrices->getMinimalPrice()->getValue(),
+                'adjustments' => []
+            ];
+        }
+
+        if ($calculationPrices->getMaximalPrice() !== null) {
+            $calculationData[ 'maxPrice' ] = [
+                'amount'      => $calculationPrices->getMaximalPrice()->getValue(),
+                'adjustments' => []
+            ];
+        }
+
         return $calculationData;
+    }
+
+    public function getProductTierCalculation(CalculationInterface $calculation, Product $product): array
+    {
+        $calculationTierPrices = $calculation->getProductTierPrices($product);
+
+        $tierPrices = [];
+
+        foreach ($calculationTierPrices as $calculationTierPrice) {
+            if ($calculationTierPrice->getQty() > 1) {
+                $tierPrices[] = [
+                    'qty'       => $calculationTierPrice->getQty(),
+                    'price'     => $calculationTierPrice->getFinalPrice()->getValue(),
+                    'basePrice' => $calculationTierPrice->getFinalPrice()->getBaseAmount()
+                ];
+            }
+        }
+
+        return $tierPrices;
     }
 
     /**
@@ -190,14 +224,14 @@ class Data
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function calculatePrices(
         Product $product,
         CalculationDataInterface $calculationData
     ): PricesInterface {
         if ($calculationData->getPrice() === null && $calculationData->getDiscount() === null) {
-            throw new \Exception('No fixed priced or discount in price calculation');
+            throw new Exception('No fixed priced or discount in price calculation');
         }
 
         $prices = $this->pricesFactory->create();

@@ -2,7 +2,7 @@
 
 <!--
  * @author      Andreas Knollmann
- * @copyright   Copyright (c) 2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
@@ -10,6 +10,7 @@
         <referenceBlock name="category.product.type.details.renderers">
             <block class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Simple" name="category.product.type.details.renderers.simple" as="simple" template="Infrangible_CatalogProductPriceCalculation::product/listing/simple.phtml"/>
             <block class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Downloadable" name="category.product.type.details.renderers.downloadable" as="downloadable" template="Infrangible_CatalogProductPriceCalculation::product/listing/downloadable.phtml"/>
+            <block class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Bundle" name="category.product.type.details.renderers.bundle" as="bundle" template="Infrangible_CatalogProductPriceCalculation::product/listing/bundle.phtml"/>
             <referenceBlock name="category.product.type.details.renderers.configurable" class="Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing\Configurable" template="Infrangible_CatalogProductPriceCalculation::product/listing/configurable.phtml"/>
         </referenceBlock>
     </body>

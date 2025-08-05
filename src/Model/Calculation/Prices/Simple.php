@@ -9,11 +9,14 @@ use Magento\Framework\Pricing\Amount\AmountInterface;
 
 /**
  * @author      Andreas Knollmann
- * @copyright   2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 class Simple implements PricesInterface
 {
+    /** @var float */
+    private $qty = 1.;
+
     /** @var AmountInterface */
     private $finalPrice;
 
@@ -25,6 +28,16 @@ class Simple implements PricesInterface
 
     /** @var AmountInterface|null */
     private $maximalPrice;
+
+    public function getQty(): float
+    {
+        return $this->qty;
+    }
+
+    public function setQty(float $qty): void
+    {
+        $this->qty = $qty;
+    }
 
     public function getFinalPrice(): AmountInterface
     {

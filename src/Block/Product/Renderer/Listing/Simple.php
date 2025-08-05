@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace Infrangible\CatalogProductPriceCalculation\Block\Product\Renderer\Listing;
 
 use FeWeDev\Base\Json;
-use Infrangible\CatalogProductPriceCalculation\Helper\Data;
+use Infrangible\CatalogProductPriceCalculation\Helper\Config;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Catalog\Block\Product\View\AbstractView;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Locale\Format;
-use Magento\Framework\Pricing\PriceInfo\Base;
 use Magento\Framework\Stdlib\ArrayUtils;
 
 /**
  * @author      Andreas Knollmann
- * @copyright   Copyright (c) 2014-2024 Softwareentwicklung Andreas Knollmann
+ * @copyright   2014-2025 Softwareentwicklung Andreas Knollmann
  * @license     http://www.opensource.org/licenses/mit-license.php MIT
  */
 class Simple extends AbstractView
@@ -26,8 +25,8 @@ class Simple extends AbstractView
     /** @var Format */
     protected $localeFormat;
 
-    /** @var Data */
-    protected $calculationHelper;
+    /** @var Config */
+    protected $configHelper;
 
     /** @var Product|null */
     private $product;
@@ -37,7 +36,7 @@ class Simple extends AbstractView
         ArrayUtils $arrayUtils,
         Json $json,
         Format $localeFormat,
-        Data $helper,
+        Config $configHelper,
         array $data = []
     ) {
         parent::__construct(
@@ -48,7 +47,7 @@ class Simple extends AbstractView
 
         $this->json = $json;
         $this->localeFormat = $localeFormat;
-        $this->calculationHelper = $helper;
+        $this->configHelper = $configHelper;
     }
 
     public function getProduct(): ?Product
@@ -67,20 +66,27 @@ class Simple extends AbstractView
         return $this;
     }
 
-    public function getPriceFormatJson(): ?string
+    public function getPriceConfigJson(): string
     {
-        return $this->json->encode($this->localeFormat->getPriceFormat());
-    }
+        $product = $this->getProduct();
 
-    public function getPricesJson(): ?string
-    {
-        return $this->json->encode(
-            $this->getFormattedPrices($this->getProduct()->getPriceInfo())
+        $config = [
+            'priceFormat' => $this->localeFormat->getPriceFormat(),
+            'prices'      => $this->getPrices()
+        ];
+
+        $config = $this->configHelper->processConfig(
+            $config,
+            $product
         );
+
+        return $this->json->encode($config);
     }
 
-    public function getFormattedPrices(Base $priceInfo): array
+    private function getPrices(): array
     {
+        $priceInfo = $this->getProduct()->getPriceInfo();
+
         $regularPrice = $priceInfo->getPrice('regular_price');
         $finalPrice = $priceInfo->getPrice('final_price');
 
@@ -98,23 +104,5 @@ class Simple extends AbstractView
                 'amount' => $this->localeFormat->getNumber($finalPrice->getAmount()->getValue()),
             ],
         ];
-    }
-
-    public function getCalculatedPricesJson(): ?string
-    {
-        $calculatedPrices = [];
-
-        $product = $this->getProduct();
-
-        foreach ($this->calculationHelper->getCalculations() as $calculation) {
-            if ($calculation->hasProductCalculation($product)) {
-                $calculatedPrices[ $calculation->getCode() ] = $this->calculationHelper->getProductCalculation(
-                    $calculation,
-                    $product
-                );
-            }
-        }
-
-        return $this->json->encode($calculatedPrices);
     }
 }
