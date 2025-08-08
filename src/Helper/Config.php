@@ -71,7 +71,7 @@ class Config
                     $product
                 );
 
-                $config = $this->calculateSavePercent(
+                $config = $this->processSavePercent(
                     $config,
                     $calculationCode
                 );
@@ -81,7 +81,7 @@ class Config
         return $config;
     }
 
-    private function calculateSavePercent(array $config, string $code): array
+    private function processSavePercent(array $config, string $code): array
     {
         $productPriceValue = $this->arrays->getValue(
             $config,
@@ -107,22 +107,43 @@ class Config
                 $productPriceValue
             );
 
-            $savePercent = round(100 - ((100 / $productPriceValue) * $tierPriceValue));
-
             $config = $this->arrays->addDeepValue(
                 $config,
                 ['calculatedTierPrices', $code, $key, 'savePercent'],
-                [
-                    'value' => $savePercent,
-                    'formatted' => $this->storeHelper->formatNumber(
-                        $this->formatPercent($savePercent),
-                        0
-                    )
-                ]
+                $this->getSavePercent(
+                    $productPriceValue,
+                    $tierPriceValue
+                )
             );
         }
 
         return $config;
+    }
+
+    private function getSavePercent(float $productPriceValue, float $tierPriceValue): array
+    {
+        $savePercent = $this->calculateSavePercent(
+            $productPriceValue,
+            $tierPriceValue
+        );
+
+        return [
+            'value'     => $savePercent,
+            'formatted' => $this->getFormattedSavePercent($savePercent)
+        ];
+    }
+
+    public function calculateSavePercent(float $productPriceValue, float $tierPriceValue): float
+    {
+        return round(100 - ((100 / $productPriceValue) * $tierPriceValue));
+    }
+
+    public function getFormattedSavePercent(float $savePercent): string
+    {
+        return $this->storeHelper->formatNumber(
+            $this->formatPercent($savePercent),
+            0
+        );
     }
 
     private function formatPercent(float $percent): int
