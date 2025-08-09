@@ -61,16 +61,6 @@ define([
             this._super();
 
             this.activeCalculationCode = selectedCalculationCode;
-
-            if (selectedCalculationCode) {
-                if (self.options.priceConfig.tierPrices) {
-                    var tierPricesDisplay = $('ul.prices-tier.items', self.element);
-
-                    if (tierPricesDisplay.length > 0) {
-                        console.log(tierPricesDisplay);
-                    }
-                }
-            }
         },
 
         updateCalculationPrices: function updateCalculationPrices() {
