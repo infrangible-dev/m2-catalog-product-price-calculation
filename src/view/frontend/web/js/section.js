@@ -108,6 +108,28 @@ define([
             if (this.calculations.hasOwnProperty(activeCalculationCode)) {
                 calculation.addActiveCalculation(activeCalculationCode, this.calculations[activeCalculationCode]);
             }
+        },
+
+        getActiveCalculationCodes: function () {
+            var activeCalculationCodes = [];
+
+            var activeCalculations = calculation.getActiveCalculations()();
+            for (var i = 0; i < activeCalculations.length; i++) {
+                activeCalculationCodes.push(activeCalculations[i].code);
+            }
+
+            return activeCalculationCodes;
+        },
+
+        hasActiveCalculation: function (code) {
+            var activeCalculations = calculation.getActiveCalculations()();
+            for (var i = 0; i < activeCalculations.length; i++) {
+                if (code === activeCalculations[i].code) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     });
 });
