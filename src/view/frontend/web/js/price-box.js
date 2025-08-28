@@ -35,6 +35,7 @@ define([
                 }
 
                 this.updatePrice();
+                this.reloadPrice();
             }, this);
 
             this.options.priceTemplateInit = this.options.priceTemplate;
