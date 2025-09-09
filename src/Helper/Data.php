@@ -203,7 +203,10 @@ class Data
             }
         }
 
-        $item->removeOption('price_calculation');
+        if ($item->getOptionByCode('price_calculation') !== null) {
+            $this->removeItemCustomPrice($item);
+            $item->removeOption('price_calculation');
+        }
 
         return false;
     }
