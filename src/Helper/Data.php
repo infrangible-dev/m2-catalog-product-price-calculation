@@ -203,7 +203,6 @@ class Data
             }
         }
 
-        $this->removeItemCustomPrice($item);
         $item->removeOption('price_calculation');
 
         return false;
