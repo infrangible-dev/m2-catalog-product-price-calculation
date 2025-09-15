@@ -5,11 +5,13 @@
  */
 
 & when (@media-common = true) {
-    .price-box {
-        .price-container.price-calculation {
-            > .price-wrapper[data-price-type="baseOldPrice"], .price-wrapper[data-price-type="oldPrice"], .price-wrapper[data-price-type="basePrice"], .price-wrapper[data-price-type="finalPrice"], .price-wrapper[data-price-type="minPrice"], .price-wrapper[data-price-type="maxPrice"] {
-                > :not(.calculated) {
-                    visibility: hidden;
+    body.price-calculation-visibility {
+        .price-box {
+            .price-container.price-calculation {
+                > .price-wrapper[data-price-type="baseOldPrice"], .price-wrapper[data-price-type="oldPrice"], .price-wrapper[data-price-type="basePrice"], .price-wrapper[data-price-type="finalPrice"], .price-wrapper[data-price-type="minPrice"], .price-wrapper[data-price-type="maxPrice"] {
+                    > :not(.calculated) {
+                        visibility: hidden;
+                    }
                 }
             }
         }
