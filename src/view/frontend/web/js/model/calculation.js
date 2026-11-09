@@ -12,7 +12,7 @@ define([
 ], function ($, ko, _) {
     'use strict';
 
-    var activeCalculationsObservable = ko.observable([]);
+    const activeCalculationsObservable = ko.observable([]);
 
     return {
         getActiveCalculations: function () {
@@ -20,7 +20,7 @@ define([
         },
 
         addActiveCalculation: function (activeCalculationCode, activeCalculationPriority) {
-            var activeCalculationsData = activeCalculationsObservable();
+            const activeCalculationsData = activeCalculationsObservable();
 
             activeCalculationsData.push({code: activeCalculationCode, priority: activeCalculationPriority});
 
@@ -37,10 +37,10 @@ define([
         },
 
         removeActiveCalculation: function (activeCalculationCode) {
-            var activeCalculationsData = activeCalculationsObservable();
+            const activeCalculationsData = activeCalculationsObservable();
 
-            for (var i = 0; i < activeCalculationsData.length; i++) {
-                var activeCalculation = activeCalculationsData[i];
+            for (let i = 0; i < activeCalculationsData.length; i++) {
+                const activeCalculation = activeCalculationsData[i];
 
                 if (activeCalculation.code === activeCalculationCode) {
                     activeCalculationsData.splice(i, 1);

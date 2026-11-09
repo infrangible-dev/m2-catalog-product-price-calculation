@@ -11,7 +11,7 @@ define([
 ], function ($, calculation) {
     'use strict';
 
-    var activeCalculationCodes;
+    let activeCalculationCodes;
 
     $.widget('infrangible.priceBox', $.mage.priceBox, {
         activeCalculationCode: null,
@@ -27,8 +27,8 @@ define([
 
                 activeCalculationCodes = [];
 
-                for (var i = 0; i < activeCalculations.length; i++) {
-                    var activeCalculation = activeCalculations[i];
+                for (let i = 0; i < activeCalculations.length; i++) {
+                    const activeCalculation = activeCalculations[i];
                     console.debug(activeCalculation);
 
                     activeCalculationCodes.push(activeCalculation.code);
@@ -45,7 +45,7 @@ define([
         },
 
         updatePrice: function updatePrice(newPrices) {
-            var selectedCalculationCode = this.updateCalculationPrices();
+            const selectedCalculationCode = this.updateCalculationPrices();
 
             if (newPrices !== undefined || this.activeCalculationCode !== selectedCalculationCode) {
                 this._super(newPrices);
@@ -55,9 +55,9 @@ define([
         },
 
         updateProductTierPrice: function updateProductTierPrice() {
-            var self = this;
+            const self = this;
 
-            var selectedCalculationCode = self.updateCalculationPrices();
+            const selectedCalculationCode = self.updateCalculationPrices();
 
             this._super();
 
@@ -65,7 +65,7 @@ define([
         },
 
         updateCalculationPrices: function updateCalculationPrices() {
-            var selectedCalculationCode;
+            let selectedCalculationCode;
 
             console.debug(activeCalculationCodes);
 
@@ -80,16 +80,16 @@ define([
                 console.debug(this.options.priceConfig.calculatedPrices);
                 console.debug(this.options.priceConfig.calculatedTierPrices);
 
-                for (var i = 0; i < activeCalculationCodes.length; i++) {
-                    var activeCalculationCode = activeCalculationCodes[i];
+                for (let i = 0; i < activeCalculationCodes.length; i++) {
+                    const activeCalculationCode = activeCalculationCodes[i];
 
                     if (activeCalculationCode in this.options.priceConfig.calculatedPrices) {
-                        var calculationPrices = this.options.priceConfig.calculatedPrices[activeCalculationCode];
+                        const calculationPrices = this.options.priceConfig.calculatedPrices[activeCalculationCode];
                         console.debug(calculationPrices);
                         this.options.prices = calculationPrices;
 
                         if (this.options.priceConfig.calculatedTierPrices) {
-                            var calculationTierPrices =
+                            const calculationTierPrices =
                                 this.options.priceConfig.calculatedTierPrices[activeCalculationCode];
                             console.debug(calculationTierPrices);
                             this.options.priceConfig.tierPrices = calculationTierPrices;

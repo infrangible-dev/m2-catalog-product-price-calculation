@@ -21,19 +21,19 @@ define([
         initialize: function () {
             this._super();
 
-            var reloadSection = false;
+            let reloadSection = false;
 
-            var cartObservable = customerData.get('cart');
+            const cartObservable = customerData.get('cart');
             if (cartObservable) {
-                var cart = cartObservable();
+                const cart = cartObservable();
                 if (cart && cart.summary_count > 0) {
                     reloadSection = true;
                 }
             }
 
-            var customerObservable = customerData.get('customer');
+            const customerObservable = customerData.get('customer');
             if (customerObservable) {
-                var customer = customerObservable();
+                const customer = customerObservable();
                 if (customer && customer.fullname) {
                     reloadSection = true;
                 }
@@ -41,7 +41,7 @@ define([
 
             if (reloadSection) {
                 $(document).on('customer-data-reload', function(event, sectionNames) {
-                    for (var i = 0; i < sectionNames.length; i++) {
+                    for (let i = 0; i < sectionNames.length; i++) {
                         if (sectionNames[i] === 'catalog-product-price-calculation') {
                             setTimeout(function () {
                                 calculation.addActiveCalculation('default', 0);
@@ -51,16 +51,16 @@ define([
                 });
                 customerData.reload(['catalog-product-price-calculation']);
             } else {
-                var self = this;
+                const self = this;
 
                 $(document).ready(function() {
-                    var catalogProductPriceSection = customerData.get('catalog-product-price-calculation');
-                    var catalogProductPriceData = catalogProductPriceSection();
+                    const catalogProductPriceSection = customerData.get('catalog-product-price-calculation');
+                    const catalogProductPriceData = catalogProductPriceSection();
                     if (! $.isEmptyObject(catalogProductPriceData)) {
                         console.debug(catalogProductPriceData);
                         if (catalogProductPriceData.activeCalculationCodes) {
-                            for (var i = 0; i < catalogProductPriceData.activeCalculationCodes.length; i++) {
-                                var activeCalculationCode = catalogProductPriceData.activeCalculationCodes[i];
+                            for (let i = 0; i < catalogProductPriceData.activeCalculationCodes.length; i++) {
+                                const activeCalculationCode = catalogProductPriceData.activeCalculationCodes[i];
                                 self.setActiveCalculation(activeCalculationCode);
                             }
                         }
@@ -71,11 +71,11 @@ define([
 
             customerData.get('catalog-product-price-calculation').subscribe(function (sectionInfo) {
                 if (sectionInfo.activeCalculationCodes) {
-                    var activeCalculations = calculation.getActiveCalculations()();
-                    var activeCalculation;
-                    var activeCalculationCode;
-                    var activeCalculationCodes = [];
-                    var i;
+                    const activeCalculations = calculation.getActiveCalculations()();
+                    let activeCalculation;
+                    let activeCalculationCode;
+                    const activeCalculationCodes = [];
+                    let i;
 
                     for (i = 0; i < activeCalculations.length; i++) {
                         activeCalculation = activeCalculations[i];
@@ -111,10 +111,10 @@ define([
         },
 
         getActiveCalculationCodes: function () {
-            var activeCalculationCodes = [];
+            const activeCalculationCodes = [];
 
-            var activeCalculations = calculation.getActiveCalculations()();
-            for (var i = 0; i < activeCalculations.length; i++) {
+            const activeCalculations = calculation.getActiveCalculations()();
+            for (let i = 0; i < activeCalculations.length; i++) {
                 activeCalculationCodes.push(activeCalculations[i].code);
             }
 
@@ -122,8 +122,8 @@ define([
         },
 
         hasActiveCalculation: function (code) {
-            var activeCalculations = calculation.getActiveCalculations()();
-            for (var i = 0; i < activeCalculations.length; i++) {
+            const activeCalculations = calculation.getActiveCalculations()();
+            for (let i = 0; i < activeCalculations.length; i++) {
                 if (code === activeCalculations[i].code) {
                     return true;
                 }

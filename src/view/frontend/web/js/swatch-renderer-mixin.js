@@ -10,7 +10,7 @@ define([
 ], function ($, calculation) {
     'use strict';
 
-    var activeCalculationCodes;
+    let activeCalculationCodes;
 
     return function (widget) {
         $.widget('mage.SwatchRenderer', widget, {
@@ -20,8 +20,8 @@ define([
 
                     activeCalculationCodes = [];
 
-                    for (var i = 0; i < activeCalculations.length; i++) {
-                        var activeCalculation = activeCalculations[i];
+                    for (let i = 0; i < activeCalculations.length; i++) {
+                        const activeCalculation = activeCalculations[i];
                         console.debug(activeCalculation);
 
                         activeCalculationCodes.push(activeCalculation.code);
@@ -34,7 +34,7 @@ define([
             },
 
             _OnClick: function($this, $widget) {
-                var $priceBox = $widget.element.parents(this.options.selectorProduct)
+                const $priceBox = $widget.element.parents(this.options.selectorProduct)
                     .find(this.options.selectorProductPrice);
 
                 if (! $priceBox.is(':data(mage-priceBox)')) {
@@ -51,7 +51,7 @@ define([
             },
 
             updateCalculationPrices: function() {
-                var selectedCalculationCode;
+                let selectedCalculationCode;
 
                 console.debug(activeCalculationCodes);
 
@@ -59,13 +59,13 @@ define([
                     console.debug(this.options.jsonConfig.calculatedPrices);
                     console.debug(this.options.jsonConfig.calculatedOptionPrices);
 
-                    var i, activeCalculationCode;
+                    let i, activeCalculationCode;
 
                     for (i = 0; i < activeCalculationCodes.length; i++) {
                         activeCalculationCode = activeCalculationCodes[i];
 
                         if (activeCalculationCode in this.options.jsonConfig.calculatedPrices) {
-                            var calculatedPrices = this.options.jsonConfig.calculatedPrices[activeCalculationCode];
+                            const calculatedPrices = this.options.jsonConfig.calculatedPrices[activeCalculationCode];
                             console.debug(calculatedPrices);
                             this.options.jsonConfig.prices = calculatedPrices;
 
@@ -79,7 +79,7 @@ define([
                         activeCalculationCode = activeCalculationCodes[i];
 
                         if (activeCalculationCode in this.options.jsonConfig.calculatedOptionPrices) {
-                            var calculatedOptionPrices =
+                            const calculatedOptionPrices =
                                 this.options.jsonConfig.calculatedOptionPrices[activeCalculationCode];
                             console.debug(calculatedOptionPrices);
                             this.options.jsonConfig.optionPrices = calculatedOptionPrices;
