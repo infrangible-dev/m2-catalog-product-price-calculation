@@ -33,7 +33,7 @@ define([
                     }
                 });
 
-                customerData.reload([SECTION]);
+                customerData.reload([SECTION], false);
             } else {
                 $(function () {
                     const sectionData = customerData.get(SECTION)();
