@@ -1,11 +1,14 @@
 {
     "name": "infrangible/m2-catalog-product-price-calculation",
-    "description": "Infrangible Magento 2 Catalog Product Price Calculation",
+    "description": "Groundwork for personal prices: lets other Infrangible modules show alternative prices to individual shoppers on product pages and lists and apply them in the cart.",
     "type": "magento2-module",
     "version": "4.0.0",
     "license": "MIT",
     "keywords": [
-        "Magento"
+        "Magento",
+        "Magento 2",
+        "Adobe Commerce",
+        "Pricing"
     ],
     "homepage": "https://www.infrangible.dev/modules/catalog-product-price-calculation",
     "authors": [
