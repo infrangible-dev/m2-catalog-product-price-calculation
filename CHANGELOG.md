@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.0.2
+
+### Fixed
+
+- The JavaScript no longer puts a JSDoc type over the declaration of several variables, which PhpStorm applied to
+  all of them (since 4.0.1, after the ESLint fixes); a documented method returns the configuration of the swatches.
+
 ## 4.0.1
 
 ### Changed

@@ -54,6 +54,15 @@ define([
             },
 
             /**
+             * Returns the JSON configuration of the swatches with the prices of the calculations.
+             *
+             * @returns {SwatchJsonConfig}
+             */
+            _getCalculationJsonConfig: function () {
+                return this.options.jsonConfig;
+            },
+
+            /**
              * Uses the prices of the active calculation with the highest priority that has prices of the product and
              * of its products.
              */
@@ -62,8 +71,7 @@ define([
                     return undefined;
                 }
 
-                /** @type {SwatchJsonConfig} */
-                const jsonConfig = this.options.jsonConfig,
+                const jsonConfig = this._getCalculationJsonConfig(),
                     calculatedPrices = jsonConfig.calculatedPrices || {},
                     calculatedOptionPrices = jsonConfig.calculatedOptionPrices || {},
                     priceCode = this.activeCalculationCodes.find(function (code) {
