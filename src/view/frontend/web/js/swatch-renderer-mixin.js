@@ -63,23 +63,21 @@ define([
                 }
 
                 /** @type {SwatchJsonConfig} */
-                const jsonConfig = this.options.jsonConfig;
-                const calculatedPrices = jsonConfig.calculatedPrices || {};
-                const calculatedOptionPrices = jsonConfig.calculatedOptionPrices || {};
+                const jsonConfig = this.options.jsonConfig,
+                    calculatedPrices = jsonConfig.calculatedPrices || {},
+                    calculatedOptionPrices = jsonConfig.calculatedOptionPrices || {},
+                    priceCode = this.activeCalculationCodes.find(function (code) {
+                        return Object.prototype.hasOwnProperty.call(calculatedPrices, code);
+                    }),
+                    optionPriceCode = this.activeCalculationCodes.find(function (code) {
+                        return Object.prototype.hasOwnProperty.call(calculatedOptionPrices, code);
+                    });
                 let selectedCalculationCode;
-
-                const priceCode = this.activeCalculationCodes.find(function (code) {
-                    return Object.prototype.hasOwnProperty.call(calculatedPrices, code);
-                });
 
                 if (priceCode !== undefined) {
                     jsonConfig.prices = calculatedPrices[priceCode];
                     selectedCalculationCode = priceCode;
                 }
-
-                const optionPriceCode = this.activeCalculationCodes.find(function (code) {
-                    return Object.prototype.hasOwnProperty.call(calculatedOptionPrices, code);
-                });
 
                 if (optionPriceCode !== undefined) {
                     jsonConfig.optionPrices = calculatedOptionPrices[optionPriceCode];

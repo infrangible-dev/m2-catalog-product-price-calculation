@@ -84,24 +84,23 @@ define([
 
             this.options.priceTemplate = this.options.priceTemplateCalculated;
 
-            const calculatedPrices = this.options.priceConfig.calculatedPrices || {};
-            const calculatedTierPrices = this.options.priceConfig.calculatedTierPrices;
+            const calculatedPrices = this.options.priceConfig.calculatedPrices || {},
+                calculatedTierPrices = this.options.priceConfig.calculatedTierPrices,
+                activeCalculationCode = this.activeCalculationCodes.find(function (code) {
+                    return Object.prototype.hasOwnProperty.call(calculatedPrices, code);
+                });
 
-            for (let i = 0; i < this.activeCalculationCodes.length; i++) {
-                const activeCalculationCode = this.activeCalculationCodes[i];
-
-                if (Object.prototype.hasOwnProperty.call(calculatedPrices, activeCalculationCode)) {
-                    this.options.prices = calculatedPrices[activeCalculationCode];
-
-                    if (calculatedTierPrices) {
-                        this.options.priceConfig.tierPrices = calculatedTierPrices[activeCalculationCode];
-                    }
-
-                    return activeCalculationCode;
-                }
+            if (activeCalculationCode === undefined) {
+                return undefined;
             }
 
-            return undefined;
+            this.options.prices = calculatedPrices[activeCalculationCode];
+
+            if (calculatedTierPrices) {
+                this.options.priceConfig.tierPrices = calculatedTierPrices[activeCalculationCode];
+            }
+
+            return activeCalculationCode;
         }
     });
 });

@@ -53,8 +53,8 @@ define([
          * Checks if the customer is logged in or has a cart, so that the section has to be reloaded.
          */
         hasPrivateContent: function () {
-            const cart = customerData.get('cart')();
-            const customer = customerData.get('customer')();
+            const cart = customerData.get('cart')(),
+                customer = customerData.get('customer')();
 
             return !!(cart && cart.summary_count > 0) || !!(customer && customer.fullname);
         },
